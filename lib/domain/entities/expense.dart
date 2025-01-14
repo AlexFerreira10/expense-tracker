@@ -1,20 +1,19 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:uuid/uuid.dart';
 
-const uuid = Uuid();
+part 'expense.freezed.dart';
 
 enum Category { food, travel, leisure, work }
 
-class Expense {
-  Expense(
-      {required this.title,
-      required this.amount,
-      required this.date,
-      required this.category})
-      : id = uuid.v4();
+const uuid = Uuid();
 
-  final String id;
-  final String title;
-  final double amount;
-  final DateTime date;
-  final Category category;
+@Freezed()
+class Expense with _$Expense {
+  const factory Expense({
+    @Default(Uuid()) final Uuid id,
+    required final String title,
+    required final double amount,
+    required final DateTime date,
+    required final Category category,
+  }) = _Expense;
 }
