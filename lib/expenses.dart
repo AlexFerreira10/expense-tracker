@@ -1,3 +1,6 @@
+import 'package:expense_tracker/data/datasource/list_expense.dart';
+import 'package:expense_tracker/domain/entities/expense.dart';
+import 'package:expense_tracker/presentation/widgets/expenses_list.dart';
 import 'package:flutter/material.dart';
 
 class Expenses extends StatefulWidget {
@@ -10,10 +13,15 @@ class Expenses extends StatefulWidget {
 }
 
 class _ExpensesState extends State<Expenses> {
+  final List<Expense> localExpenses = List.from(registeredExpenses);
+
   @override
   Widget build(BuildContext context) => Scaffold(
         body: Column(
-          children: [Text("grafics"), Text("Lista of expenses..")],
+          children: [
+            Text("grafics"),
+            Expanded(child: Expenseslist(expenses: localExpenses)),
+          ],
         ),
       );
 }

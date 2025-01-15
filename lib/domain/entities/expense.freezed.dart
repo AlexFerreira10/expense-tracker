@@ -140,13 +140,14 @@ class __$$ExpenseImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ExpenseImpl implements _Expense {
+class _$ExpenseImpl extends _Expense {
   const _$ExpenseImpl(
       {this.id = const Uuid(),
       required this.title,
       required this.amount,
       required this.date,
-      required this.category});
+      required this.category})
+      : super._();
 
   @override
   @JsonKey()
@@ -191,13 +192,14 @@ class _$ExpenseImpl implements _Expense {
       __$$ExpenseImplCopyWithImpl<_$ExpenseImpl>(this, _$identity);
 }
 
-abstract class _Expense implements Expense {
+abstract class _Expense extends Expense {
   const factory _Expense(
       {final Uuid id,
       required final String title,
       required final double amount,
       required final DateTime date,
       required final Category category}) = _$ExpenseImpl;
+  const _Expense._() : super._();
 
   @override
   Uuid get id;
