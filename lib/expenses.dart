@@ -19,7 +19,8 @@ class _ExpensesState extends State<Expenses> {
 
   void _openAddExpenseOverlay() {
     showModalBottomSheet(
-      // isScrollControlled: true, Allows it to fill the entire screen
+      isScrollControlled: true, // Can scroll full entire screen
+      useSafeArea: true,
       context: context,
       builder: (ctx) => NewExpense(onAddExpense: _addExpense),
     );
@@ -54,14 +55,15 @@ class _ExpensesState extends State<Expenses> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+
     Widget mainContent = const Center(
       child: Text('No expenses found. Start adding some!'),
     );
 
-    if (!_localExpenses.isEmpty) {
+    if (_localExpenses.isNotEmpty) {
       mainContent = Column(
         children: [
-          Chart(expenses: _localExpenses),
           Expanded(
             child: Expenseslist(
               expenses: _localExpenses,
@@ -74,21 +76,33 @@ class _ExpensesState extends State<Expenses> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            'Expense Tracker',
-            style: TextStyle(fontSize: 24),
-          ),
-        ),
+        title: const Text('Flutter ExpenseTracker'),
         actions: [
           IconButton(
             onPressed: _openAddExpenseOverlay,
-            icon: Icon(Icons.add),
+            icon: const Icon(Icons.add),
           ),
         ],
       ),
-      body: mainContent,
+      body: width < 600
+          ? Column(
+              children: [
+                Chart(expenses: _localExpenses),
+                Expanded(
+                  child: mainContent,
+                ),
+              ],
+            )
+          : Row(
+              children: [
+                Expanded(
+                  child: Chart(expenses: _localExpenses),
+                ),
+                Expanded(
+                  child: mainContent,
+                ),
+              ],
+            ),
     );
   }
 }
